@@ -12,6 +12,10 @@
 	<body>
 		<?php
 			include('links.php');
+			if(!isset($_SESSION['username'])) {
+				header('location:../testsite');
+				exit();
+			}
 		?>
 		<div class="wrapper">
 			<div class="container">

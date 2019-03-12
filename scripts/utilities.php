@@ -12,4 +12,16 @@
 		}
 		return $res;
 	}
+	
+	function sendMessage($responseArray) {
+		$array = [];
+		if($responseArray[0] < 0) {
+			$array['error'] = $responseArray[0];
+		}
+		else {
+			$array['status'] = $responseArray[0];
+		}
+		$array['message'] = $responseArray[1];
+		echo json_encode($array);
+	}
 ?>

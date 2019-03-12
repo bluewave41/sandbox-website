@@ -15,6 +15,8 @@
 		<div class="wrapper">
 			<div class="container">
 				<h1>Api</h1>
+				<h2>All endpoints here require an apikey.</h2>
+				</br>
 				<h2>Get User List</h2>
 				<h3>POST: http://127.0.0.1/testsite/api/api.php</h3>
 				<h3>type: "getUserList"</h3>
@@ -29,9 +31,11 @@
 						echo '<div id="keys">You have no keys.</div>';
 					}
 					else {
+						echo '<div id="keys">';
 						foreach($keys as $key) {
 							echo '<div>'.$key['apikey'].'</div>';
 						}
+						echo '</div>';
 					}
 				?>
 				<button id="generateKey">Generate key</button>
