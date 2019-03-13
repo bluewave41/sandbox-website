@@ -19,6 +19,7 @@ function buttonClick(e, clickFunction) {
 	$('form').fadeOut(500, function() {
 		$('.loader').addClass('active');
 		clickFunction().then(function(response) {
+			console.log(response);
 			$('.loader').removeClass('active');
 			$('#message').text(response.message).css({'display': 'block'});
 			if(response.status >= 0) {

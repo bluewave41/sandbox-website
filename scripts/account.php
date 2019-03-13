@@ -12,8 +12,8 @@
 			$email    = $_POST['email'];
 	
 			if(doesAccountExist($pdo, $username)) {
-				sendMessage(-6, 'Username already exists.');
-				exit();
+				sendMessage(getError(-6));
+				return;
 			}
 	
 			if(validateAccount($pdo, $username, $password, $email)) {
@@ -21,7 +21,7 @@
 				$statement = $pdo->prepare("INSERT INTO users(username, password, email) VALUES(?, ?, ?)");
 				$statement->execute([$username, $password, $email]);
 	
-				sendMessage(1, 'Account created successfully.');
+				sendMessage([1, 'Account created successfully.']);
 				break;
 			}
 		return;
