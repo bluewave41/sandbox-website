@@ -103,19 +103,3 @@ function generateKey() {
 		},
 	});
 }
-
-function createTable() {
-	$.ajax({
-		type: "POST",
-		url: 'scripts/userList.php',
-		dataType: 'JSON',
-		success: function(data) {
-			let table = '<thead><tr><td>Username</td><td>Password</td><td>Email</td><td>ID</td></tr></thead>';
-			for(var x=0;x<data.length;x++) {
-				table += `<tr><td>${data[x].username}</td><tD>${data[x].password}</td><td>${data[x].email}</td><td>${data[x].id}</td></tr>`;
-			}
-			console.log(table);
-			$('#userList').html(table);
-		}
-	});
-}

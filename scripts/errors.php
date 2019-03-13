@@ -14,6 +14,8 @@
 			[-10, "You didn't specify an endpoint."],
 			[-11, "Invalid apikey."],
 			[-12, "You aren't logged in."],
+			[-13, "This endpoint requires admin privileges."],
+			[-14, "You didn't specify a username."],
 		];
 		return $errors[abs($code)-1];
 	}

@@ -144,6 +144,11 @@ form button:hover {
 	margin-top: 50px;
 }
 
+table {
+	font-family: Courier;
+	margin: 0px auto;
+}
+
 thead {
 	font-weight: 900;
 	color: blue;

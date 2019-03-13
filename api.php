@@ -21,6 +21,18 @@
 				<h3>POST: http://127.0.0.1/testsite/api/api.php</h3>
 				<h3>type: "getUserList"</h3>
 				</br>
+				
+				<?php
+					//session started in links, need to be logged in to view this page so admin will be set
+					if($_SESSION['admin']) {
+						echo "<h2>Get User Information</h2>
+							  <h3>POST: http://127.0.0.1/testsite/api/api.php</h3>
+							  <h3>type: 'getUserInfo'</h3>
+							  <h3>username: 'root'</h3>
+							  </br>";
+					}
+				?>
+				
 				<h1>Your keys</h1>
 				<?php
 					include('scripts/config.php');
