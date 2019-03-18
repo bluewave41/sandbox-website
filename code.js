@@ -21,8 +21,12 @@ function buttonClick(e, clickFunction) {
 		clickFunction().then(function(response) {
 			console.log(response);
 			$('.loader').removeClass('active');
-			$('#message').text(response.message).css({'display': 'block'});
-			if(response.status >= 0) {
+			let errors = '';
+			for(var x=0;x<response.length;x++) {
+				errors += `<div>${response[x]}</div>`;
+			}
+			$('#message').html(errors).css({'display': 'block'});
+			if(response[0] == "Account created successfully." || response[0].startsWith('Welcome')) {
 				setTimeout(function() {
 					window.location.href = 'index.php';
 				}, 2000);
@@ -82,6 +86,7 @@ function logoutAccount() {
 }
 
 function generateKey() {
+	let $keys = $('#keys');
 	$.ajax({
 		type: "POST",
 		url: 'api/api.php',
@@ -90,17 +95,17 @@ function generateKey() {
 			type: 'generateKey',
 		},
 		success: function(data) {
-			let $keys = $('#keys');
-			if(data.error) {
-				if($keys.children().last().text() != 'You already have the maximum number of keys.') {
-					$keys.append(`<div class="error">${data.message}</div>`);
-				}
-				return;
-			}
+			console.log(data);
 			if($keys.eq(0).text() == 'You have no keys.') {
 				$keys.empty();
 			}
-			$keys.append(`<div>${data.message}</div>`);
+			$keys.append(`<div>${data.key}</div>`);
 		},
+		error: function(data) {
+			console.log($keys.children().last().text());
+			if($keys.children().last().text() != "You already have the maximum number of keys.") {
+				$keys.append(`<div class="error">${data.responseJSON.message}</div>`);
+			}
+		}
 	});
 }

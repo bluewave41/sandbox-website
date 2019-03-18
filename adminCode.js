@@ -9,7 +9,7 @@ $(document).ready(function() {
 			dataType: 'JSON',
 			success: function(data) {
 				$('#userList tr').hide();
-				showUser(data.message);
+				showUser(data);
 			}
 		})
 	});

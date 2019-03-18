@@ -13,15 +13,14 @@
 		return $res;
 	}
 	
-	function sendMessage($responseArray) {
+	function sendMessage($message) {
+		echo json_encode($message);
+	}
+	
+	function sendStatus($messageArray) {
 		$array = [];
-		if($responseArray[0] < 0) {
-			$array['error'] = $responseArray[0];
-		}
-		else {
-			$array['status'] = $responseArray[0];
-		}
-		$array['message'] = $responseArray[1];
+		$array['status'] = $messageArray[0];
+		$array['message'] = $messageArray[1];
 		echo json_encode($array);
 	}
 ?>

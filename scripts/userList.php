@@ -1,5 +1,5 @@
 <?php
-	include('config.php');
+	include('Database.php');
 	$statement = $pdo->prepare("SELECT * FROM users");
 	$statement->execute();
 	$result = $statement->fetchAll();

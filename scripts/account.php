@@ -1,28 +1,19 @@
 <?php
-	include('config.php');
-	include('errors.php');
+	include('Database.php');
 	include('utilities.php');
+	require('User.php');
 	
 	$type = $_POST['type'];
 	
 	switch ($type) {
 		case 'register':
-			$username = $_POST['username'];
-			$password = $_POST['password'];
-			$email    = $_POST['email'];
-	
-			if(doesAccountExist($pdo, $username)) {
-				sendMessage(getError(-6));
-				return;
+			$user = new User($pdo, $_POST['username'], $_POST['password'], $_POST['email']);
+			if($user->isValid()) {
+				$user->insert();
+				sendMessage(["Account created successfully."]);
 			}
-	
-			if(validateAccount($pdo, $username, $password, $email)) {
-				$password = hash('sha256', $password);
-				$statement = $pdo->prepare("INSERT INTO users(username, password, email) VALUES(?, ?, ?)");
-				$statement->execute([$username, $password, $email]);
-	
-				sendMessage([1, 'Account created successfully.']);
-				break;
+			else {
+				sendMessage($user->errors());
 			}
 		return;
 		
@@ -30,22 +21,22 @@
 			$username = $_POST['username'];
 			$password = $_POST['password'];
 			
-			if(validateAccount($pdo, $username, $password, 'a')) {
-				$password = hash('sha256', $password);
-				$statement = $pdo->prepare("SELECT password FROM users WHERE username = ?");
-				$statement->execute([$username]);
-				$comparePassword = $statement->fetch()['password'];
-			
-				if($password === $comparePassword) {
-					sendMessage([1, "Welcome ".$username]);
+			$user = User::get($pdo, $username);
+			if($user) {
+				$hashed = hash('sha256', $password);
+				if($hashed === $user->password) {
+					sendMessage(["Welcome ".$username]);
 					session_start();
 					$_SESSION['username'] = $username;
 					$_SESSION['id'] = getID($pdo, $username);
 					$_SESSION['admin'] = getAdmin($pdo, $username);
 				}
 				else {
-					sendMessage(getError(-7));
+					sendMessage(["Username or password are incorrect."]);
 				}
+			}
+			else {
+				sendMessage(["Username wasn't found."]);
 			}
 			break;
 		case 'logout':
@@ -68,37 +59,5 @@
 		$statement->execute([$username]);
 		$admin = $statement->fetch()['admin'];
 		return $admin;
-	}
-	
-	function doesAccountExist($pdo, $username) {
-		$statement = $pdo->prepare('SELECT username FROM users WHERE username = ?');
-		$statement->execute([$username]);
-		$user = $statement->fetch();
-		return $user;
-	}
-	
-	function validateAccount($pdo, $username, $password, $email) {
-		$array = [];
-		if(empty($username)) {
-			sendMessage(getError(-1));
-			return false;
-		}
-		if(empty($password)) {
-			sendMessage(getError(-2));
-			return false;
-		}
-		if(empty($email)) {
-			sendMessage(getError(-3));
-			return false;
-		}
-		if(!ctype_alnum($username)) {
-			sendMessage(getError(-4));
-			return false;
-		}
-		if(strlen($username) > 20) {
-			sendMessage(getError(-5));
-			return false;
-		}
-		return true;
 	}
 ?>

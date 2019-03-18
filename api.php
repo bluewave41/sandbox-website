@@ -35,7 +35,7 @@
 				
 				<h1>Your keys</h1>
 				<?php
-					include('scripts/config.php');
+					include('scripts/Database.php');
 					$statement = $pdo->prepare("SELECT apikey FROM apikeys WHERE id = ?");
 					$statement->execute([$_SESSION['id']]);
 					$keys = $statement->fetchAll();
