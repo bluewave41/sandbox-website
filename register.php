@@ -17,6 +17,11 @@
 					<input type="text" id="username" placeholder="username"></input>
 					<input type="password" id="password" placeholder="password"></input>
 					<input type="text" id="email" placeholder="email"></input>
+					<div>
+						<span><img class="starter" id="1" src="sprites/1.png"/></span>
+						<span><img class="starter" id="4" src="sprites/4.png"/></span>
+						<span><img class="starter" id="7" src="sprites/7.png"/></span>
+					</div>
 					<button id="register">Register</button>
 				</form>
 			</div>

@@ -1,0 +1,2 @@
+Ensure name email and such are actually set
+validate starter

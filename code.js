@@ -11,6 +11,9 @@ $(document).ready(function() {
 	$("#generateKey").click(function(e) {
 		generateKey();
 	});
+	$(".starter").click(function(e) {
+		starterClick($(e.target));
+	});
 });
 
 function buttonClick(e, clickFunction) {
@@ -46,6 +49,7 @@ function createAccount() {
 				username: $('#username').val(),
 				password: $('#password').val(),
 				email: $('#email').val(),
+				starter: $('.selected').attr('id') || -1
 			},
 			success: function(data) {
 				resolve(data);
@@ -108,4 +112,11 @@ function generateKey() {
 			}
 		}
 	});
+}
+
+function starterClick(starter) {
+	console.log('w');
+	let starters = $('.starter');
+	starters.removeClass('selected');
+	starter.addClass('selected');
 }

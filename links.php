@@ -5,6 +5,7 @@
 		if(isset($_SESSION['username']) && $_SESSION['username']) {
 			echo '<a id="logout" href="#">Logout</a> ';
 			echo '<a href="api.php">API</a> ';
+			echo '<a href="party.php">Party</a> ';
 			if($_SESSION['admin']) {
 				echo '<a href="userList.php">User List</a> ';
 			}

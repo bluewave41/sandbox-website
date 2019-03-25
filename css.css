@@ -164,3 +164,7 @@ thead {
 .error {
 	color: red;
 }
+
+.selected {
+	border: 1px solid red;
+}

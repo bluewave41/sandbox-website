@@ -2,14 +2,18 @@
 	include('Database.php');
 	include('utilities.php');
 	require('User.php');
+	require('Pokemon.php');
 	
 	$type = $_POST['type'];
 	
 	switch ($type) {
 		case 'register':
-			$user = new User($pdo, $_POST['username'], $_POST['password'], $_POST['email']);
+			$user = new User($pdo, $_POST['username'], $_POST['password'], $_POST['email'], $_POST['starter']);
 			if($user->isValid()) {
 				$user->insert();
+				$ownerID = $pdo->lastInsertId();
+				$pokemon = new Pokemon($pdo, $ownerID, $_POST['starter']);
+				$pokemon->insert();
 				sendMessage(["Account created successfully."]);
 			}
 			else {

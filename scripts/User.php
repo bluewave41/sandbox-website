@@ -8,11 +8,12 @@
 		public $password;
 		public $email;
 		
-		public function __construct($pdo, $username, $password, $email) {	
+		public function __construct($pdo, $username, $password, $email, $id=-1) {
 			$this->pdo = $pdo;
 			$this->username = $username;
 			$this->password = $password;
 			$this->email = $email;
+			$this->id = $id;
 		}
 		
 		public function errors() {
@@ -20,13 +21,13 @@
 		}
 		
 		public static function get($pdo, $username) {
-			$statement = $pdo->prepare("SELECT username, password, email FROM users WHERE username = ?");
+			$statement = $pdo->prepare("SELECT username, password, email, id FROM users WHERE username = ?");
 			$statement->execute([$username]);
 			$user = $statement->fetch();
 			if($statement->rowCount() === 0) {
 				return null;
 			}
-			return new User($pdo, $user['username'], $user['password'], $user['email']);
+			return new User($pdo, $user['username'], $user['password'], $user['email'], $user['id']);
 		}
 		
 		/*Error check this*/

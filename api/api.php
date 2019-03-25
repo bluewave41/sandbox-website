@@ -29,7 +29,7 @@
 		}
 		else {
 			$statement = $pdo->prepare("INSERT INTO apikeys(id, apikey) VALUES(?, ?)");
-			$statement->execute([$_SESSION['id'], $key]); //TODO check for session exists
+			$statement->execute([$_SESSION['id'], $key]); //user is guaranteed to be logged in
 			echo json_encode(array("key" => "$key"));
 		}
 		return;
