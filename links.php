@@ -6,6 +6,7 @@
 			echo '<a id="logout" href="#">Logout</a> ';
 			echo '<a href="api.php">API</a> ';
 			echo '<a href="party.php">Party</a> ';
+			echo '<a href="map.php">Map</a> ';
 			if($_SESSION['admin']) {
 				echo '<a href="userList.php">User List</a> ';
 			}

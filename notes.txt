@@ -1,2 +1,5 @@
 Ensure name email and such are actually set
 validate starter
+active party order
+remove ownerid from battle
+redo registration pokemon

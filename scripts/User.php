@@ -21,13 +21,13 @@
 		}
 		
 		public static function get($pdo, $username) {
-			$statement = $pdo->prepare("SELECT username, password, email, id FROM users WHERE username = ?");
+			$statement = $pdo->prepare("SELECT username, password FROM users WHERE username = ?");
 			$statement->execute([$username]);
 			$user = $statement->fetch();
 			if($statement->rowCount() === 0) {
 				return null;
 			}
-			return new User($pdo, $user['username'], $user['password'], $user['email'], $user['id']);
+			return new User($pdo, $user['username'], $user['password'], '');
 		}
 		
 		/*Error check this*/

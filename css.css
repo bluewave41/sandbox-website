@@ -168,3 +168,15 @@ thead {
 .selected {
 	border: 1px solid red;
 }
+
+.tile {
+	cursor: pointer;
+}
+
+.hp {
+	text-align: center;
+}
+
+td {
+    padding:0 100px 0 100px;
+}
