@@ -1,19 +1,19 @@
 <html>
 	<head>
-		<link rel="stylesheet" href="css.css"/>
+		<link rel="stylesheet" href="../../static/css.css"/>
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 		<script src="code.js"></script>
 	</head>
 	<body>
 		<?php
-			include('links.php');
+			include('../../static/links.php');
 		?>
 		<div class="wrapper">
 			<div class="container">
 				<?php
 					//session started in links.php
-					include("scripts/Database.php");
-					include("scripts/User.php");
+					include("../../scripts/Database.php");
+					include("../../scripts/User.php");
 					$user;
 					if(isset($_GET['username'])) { //TODO: validate this
 						try {
@@ -39,7 +39,7 @@
 					foreach($pokemonArray as $pokemon) {
 						echo "<tr>";
 						echo "<td><div>$pokemon[name]</div></td>";
-						echo "<td><img src='sprites/$pokemon[pokemonID].png'/></td>";
+						echo "<td><img src='../../sprites/$pokemon[pokemonID].png'/></td>";
 						echo "<td><div>$pokemon[hp]</div></td>";
 					}
 					echo "</table>";

@@ -12,7 +12,7 @@
 			if($user->isValid()) {
 				$user->insert();
 				$ownerID = $pdo->lastInsertId();
-				$pokemon = new Pokemon($pdo, $ownerID, $_POST['starter']);
+				$pokemon = new Pokemon($pdo, $ownerID, $_POST['starter'], 5, 30);
 				$pokemon->insert();
 				sendMessage(["Account created successfully."]);
 			}

@@ -1,12 +1,12 @@
 <html>
 	<head>
-		<link rel="stylesheet" href="css.css"/>
+		<link rel="stylesheet" href="../../static/css.css"/>
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-		<script src="code.js"></script>
+		<script src="../../static/code.js"></script>
 	</head>
 	<body>
 		<?php
-			include('links.php');
+			include('../../static/links.php');
 		?>
 		<div class="wrapper">
 			<div class="container">

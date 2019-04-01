@@ -157,10 +157,6 @@ thead {
 	color: red;
 }
 
-.selected {
-	border: 1px solid red;
-}
-
 .tile {
 	cursor: pointer;
 }

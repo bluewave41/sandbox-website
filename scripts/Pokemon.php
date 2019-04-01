@@ -4,13 +4,23 @@
 		private $pdo;
 		private $errors = [];
 		
-		public function __construct($pdo, $ownerID, $id, $level, $hp) {	
+		/*
+			PDO: database object
+			$ownerID: valid id column from users database otherwise -1 to indicate wild pokemon
+			$id: numeric pokedex number of the pokemon
+			$level: numeric value 1-100 for the pokemons level
+			$hp: numeric value of the pokemons hp
+			$position: position in the party (or box) of the pokemon, assumed to be first
+		*/
+		public function __construct($pdo, $ownerID, $id, $level, $hp, $position=1) {	
 			$this->pdo = $pdo;
 			$this->ownerID = $ownerID;
 			$this->id = $id;
 			$this->level = $level;
 			$this->hp = $hp;
+			$this->position = $position;
 			$this->name = $this->getName();
+			$this->getAttacks();
 		}
 		
 		public function errors() {
@@ -24,7 +34,15 @@
 		}
 		
 		public function getAttacks() {
-			$statement = $this->pdo->prepare("SELECT * FROM pokemon AS p LEFT JOIN attacks AS a ON p.attack1 = a.id OR p.attack2 = a.id OR p.attack3 = a.id OR p.attack4 = a.id");
+			if($this->ownerID == -1) { //this pokemon is wild so we should pull from available moves
+				$this->attacks = array('Leer');
+			}
+			else {
+				$statement = $this->pdo->prepare("SELECT name FROM pokemon AS p LEFT JOIN attacks AS a ON p.attack1 = a.id OR p.attack2 = a.id OR p.attack3 = a.id OR p.attack4 = a.id
+											  WHERE p.id = ? AND p.partyPosition = ?");
+				$statement->execute([$this->ownerID, $this->position]);
+				$this->attacks = array_values($statement->fetchAll(PDO::FETCH_COLUMN, 0));
+			}
 		}
 		
 		private function validateStarter() {
@@ -37,14 +55,25 @@
 			}
 		}
 		
-		public static function get($pdo, $id) {
-			$statement = $pdo->prepare("SELECT id, pokemonID, hp FROM pokemon WHERE id = ?");
-			$statement->execute([$id]);
+		/*Send out first pokemon in the party if position isn't supplied*/
+		public static function get($pdo, $id, $position=1) {
+			$statement = $pdo->prepare("SELECT id, pokemonID, hp, level FROM pokemon WHERE id = ? AND partyPosition = ?");
+			$statement->execute([$id, $position]);
 			$pokemon = $statement->fetch();
 			if($statement->rowCount() === 0) {
 				return null;
 			}
-			return new Pokemon($pdo, $pokemon['id'], $pokemon['pokemonID'], 5, 30);
+			return new Pokemon($pdo, $pokemon['id'], $pokemon['pokemonID'], $pokemon['level'], $pokemon['hp'], $position);
+		}
+		
+		public static function getPosition($pdo, $position) {
+			$statement = $pdo->prepare("SELECT id, level, pokemonID, hp FROM pokemon WHERE partyPosition = ?");
+			$statement->execute([$position]);
+			$pokemon = $statement->fetch();
+			if($statement->rowCount() === 0) {
+				return null;
+			}
+			return new Pokemon($pdo, $pokemon['id'], $pokemon['pokemonID'], $pokemon['level'], $pokemon['hp']);
 		}
 		
 		/*Error check this*/
@@ -54,7 +83,7 @@
 		}
 		
 		public function serialize() {
-			return array('ownerID' => $this->ownerID, 'id' => $this->id, 'level' => $this->level, 'hp' => $this->hp, 'name' => $this->name);
+			return array('ownerID' => $this->ownerID, 'id' => $this->id, 'level' => $this->level, 'hp' => $this->hp, 'name' => $this->name, 'attacks' => $this->attacks);
 		}
 		
 		/*Move to database?*/

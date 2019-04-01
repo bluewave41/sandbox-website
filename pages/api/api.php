@@ -1,14 +1,15 @@
 <html>
 	<head>
-		<link rel="stylesheet" href="css.css"/>
+		<link rel="stylesheet" href="../../static/css.css"/>
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-		<script src="code.js"></script>
+		<script src="../../static/code.js"></script>
+		<script src="api.js"></script>
 	</head>
 	<body>
 		<?php
-			include('links.php');
+			include('../../static/links.php');
 			if(!isset($_SESSION['username'])) {
-				header('location:../testsite');
+				header('location:../index/index.php');
 				exit();
 			}
 		?>
@@ -35,7 +36,7 @@
 				
 				<h1>Your keys</h1>
 				<?php
-					include('scripts/Database.php');
+					include('../../scripts/Database.php');
 					$statement = $pdo->prepare("SELECT apikey FROM apikeys WHERE id = ?");
 					$statement->execute([$_SESSION['id']]);
 					$keys = $statement->fetchAll();

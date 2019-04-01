@@ -23,10 +23,19 @@
 					echo '<td>'.$encounteredPokemon['name'].'</td></tr>';
 					echo '<td><img src="sprites/'.$pokemonToUse->id.'.png"/></td>';
 					echo '<td><img src="sprites/'.$encounteredPokemon['id'].'.png"/></td></tr>';
-					echo '<td class="hp">'.$pokemonToUse->hp.'</td>';
-					echo '<td class="hp">'.$encounteredPokemon['hp'].'</td></tr>';
-					
+					echo '<td class="hp">HP: '.$pokemonToUse->hp.'</td>';
+					echo '<td class="hp">HP: '.$encounteredPokemon['hp'].'</td></tr>';
 					//attacks
+					for($x=0;$x<4;$x++) {
+						echo '<tr>';
+						if(isset($pokemonToUse->attacks[$x])) {
+							echo '<td class="attack">'.$pokemonToUse->attacks[$x].'</td>';
+						}
+						if(isset($encounteredPokemon['attacks'][$x])) {
+							echo '<td class="attack">'.$encounteredPokemon['attacks'][$x].'</td>';
+						}
+						echo '</tr>';
+					}
 				?>
 			</div>
 		</div>
