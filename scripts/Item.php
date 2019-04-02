@@ -1,7 +1,5 @@
 <?php
-	include('Bag.php');
-	
-	class User {
+	class Item {
 		
 		private $pdo;
 		private $errors = [];
@@ -9,12 +7,12 @@
 		public $username;
 		public $password;
 		public $email;
-			
-		public function __construct($pdo, $username, $password, $email) {
+		
+		public function __construct($pdo, $id, $itemID, $count) {
 			$this->pdo = $pdo;
-			$this->username = $username;
-			$this->password = $password;
-			$this->email = $email;
+			$this->id = $id;
+			$this->itemID = $itemID;
+			$this->count = $count;
 		}
 		
 		public function errors() {
@@ -22,34 +20,19 @@
 		}
 		
 		public static function get($pdo, $username) {
-			$statement = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+			$statement = $pdo->prepare("SELECT username, password FROM users WHERE username = ?");
 			$statement->execute([$username]);
-			$data = $statement->fetch();
+			$user = $statement->fetch();
 			if($statement->rowCount() === 0) {
 				return null;
 			}
-			$user = new User($pdo, $data['username'], $data['password'], $data['email']);
-			foreach($data as $key => $value) {
-				$user->$key = $value;
-			}
-			return $user;
-		}
-		
-		/*Can only be called on a user fetched with get*/
-		public function getBag() {
-			$this->bag = Bag::get($this->pdo, $this->id);
-		}
-		
-		//username should be unique here but maybe use ID instead later?
-		public function update() {
-			$statement = $this->pdo->prepare("UPDATE users SET money = ? WHERE username = ?");
-			$statement->execute([$this->money, $this->username]);
+			return new User($pdo, $user['username'], $user['password'], '');
 		}
 		
 		/*Error check this*/
 		public function insert() {
-			$sql = $this->pdo->prepare("INSERT INTO users SET username=?, password=?, email=?, money=?");
-			$sql->execute([$this->username, hash('sha256', $this->password), $this->email, $this->money]);
+			$sql = $this->pdo->prepare("INSERT INTO users SET username=?, password=?, email=?");
+			$sql->execute([$this->username, hash('sha256', $this->password), $this->email]);
 		}
 		
 		/*Move to database?*/

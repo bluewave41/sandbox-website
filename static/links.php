@@ -7,6 +7,7 @@
 			echo '<a href="../api/api.php">API</a> ';
 			echo '<a href="../party/party.php">Party</a> ';
 			echo '<a href="../map/map.php">Map</a> ';
+			echo '<a href="../bag/bag.php">Bag</a> ';
 			if($_SESSION['admin']) {
 				echo '<a href="../userlist/userList.php">User List</a> ';
 			}

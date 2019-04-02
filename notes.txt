@@ -4,4 +4,6 @@ active party order
 remove ownerid from battle
 redo registration pokemon
 undefined index type in logout
-cant login if already logged in
+fix great ball sprite
+scoping in getitemcosts
+is this safe? comments

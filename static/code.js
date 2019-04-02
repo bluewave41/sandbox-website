@@ -10,7 +10,8 @@ var StaticBase = (function() {
 		let data = {
 			type: 'logout',
 		};
-		post('scripts/account.php').then(function() {
+		post('scripts/account.php', data).then(function() {
+			console.log('w');
 			location.reload();
 		});
 	}
@@ -24,6 +25,9 @@ var StaticBase = (function() {
 				data: data,
 				success: function(data) {
 					resolve(data);
+				},
+				error: function(error) {
+					console.log(error);
 				}
 			});
 		});

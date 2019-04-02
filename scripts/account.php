@@ -4,11 +4,11 @@
 	require('User.php');
 	require('Pokemon.php');
 	
-	$type = $_POST['type'];
+	$type = $_POST['type']; //check if type is set
 	
 	switch ($type) {
 		case 'register':
-			$user = new User($pdo, $_POST['username'], $_POST['password'], $_POST['email'], $_POST['starter']);
+			$user = new User($pdo, $_POST['username'], $_POST['password'], $_POST['email']);
 			if($user->isValid()) {
 				$user->insert();
 				$ownerID = $pdo->lastInsertId();
@@ -46,6 +46,7 @@
 		case 'logout':
 			session_start();
 			session_destroy();
+			echo '[]';
 		break;
 	}
 	

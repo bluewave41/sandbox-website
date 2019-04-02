@@ -1,5 +1,8 @@
 <?php
-	include('Pokemon.php');
-	$poke = new Pokemon(null, 1, 1, 1, 1);
-	print_r($poke->serialize());
+	include('User.php');
+	include('Database.php');
+	$user = User::get($pdo, 'admin');
+	print_r($user);
+	$user->getBag();
+	print_r($user);
 ?>

@@ -12,6 +12,12 @@
 		<div class="wrapper">
 			<div class="container">
 				<h1>Login</h1>
+				<?php
+					if(isset($_SESSION['username'])) {
+						header('location:../index/index.php');
+						exit();
+					}
+				?>
 				<div class="loader"></div>
 				<div style="display: none" id="message" class="animate-bottom"></div>
 				<form id="form">
