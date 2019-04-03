@@ -3,9 +3,9 @@
 	include('../../scripts/User.php');
 	session_start();
 	
-	//if(!isset($_POST['items'])) {
-	//	echo json_encode(["You don't have any items selected."]);
-	//}
+	if(!isset($_POST['items'])) {
+		echo json_encode(["You don't have any items selected."]);
+	}
 	
 	$items = $_POST['items'];
 	$costs = getItemCosts($pdo);
@@ -22,7 +22,12 @@
 	}
 	else {
 		$user->money -= $total;
-		$user->getBag();
+		$statement = $pdo->prepare("INSERT INTO bag VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE count = count + VALUES(count)");
+		for($x=0;$x<count($items);$x++) {
+			if($items[$x] != 0) {
+				$statement->execute([$_SESSION['id'], $x, $items[$x]]);
+			}
+		}
 		
 		$user->update();
 		echo json_encode("Purchase successful!");

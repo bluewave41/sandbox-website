@@ -29,7 +29,7 @@
 		}
 		
 		public function update() {
-			$statement = $pdo->prepare("UPDATE bag SET )
+			//$statement = $pdo->prepare("UPDATE bag SET )
 		}
 		
 		public static function get($pdo, $id) {

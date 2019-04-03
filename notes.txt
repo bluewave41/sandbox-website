@@ -7,3 +7,4 @@ undefined index type in logout
 fix great ball sprite
 scoping in getitemcosts
 is this safe? comments
+finish dragging in party menu

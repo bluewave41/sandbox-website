@@ -16,7 +16,7 @@
 					include("../../scripts/User.php");
 
 					if(isset($_SESSION['id'])) {
-						$statement = $pdo->prepare("SELECT name, count FROM bag as b LEFT JOIN itemlist as i on b.id = i.id WHERE b.id = ?");
+						$statement = $pdo->prepare("SELECT name, count FROM bag as b LEFT JOIN itemlist as i on b.itemID = i.itemID WHERE b.id = ?");
 						$statement->execute([$_SESSION['id']]);
 						$items = $statement->fetchAll();
 						foreach($items as $item) {

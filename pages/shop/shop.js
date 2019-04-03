@@ -14,7 +14,9 @@
 		});
 		
 		$('button').click(function() {
-			StaticBase.post('pages/shop/purchase.php', {items: items});
+			StaticBase.post('pages/shop/purchase.php', {items: items}).then(function(response) {
+				$('#response').text(response);
+			});
 		});
 	});
 	

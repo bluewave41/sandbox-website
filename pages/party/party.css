@@ -1,0 +1,13 @@
+.dragdrop {
+	background:red;
+	margin:15px;
+	width:100px;
+}
+
+.ui-state-hover {
+	background:lightyellow;   
+}
+
+.ui-state-active {
+	background:lightgray   
+}

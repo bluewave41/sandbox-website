@@ -1,8 +1,10 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="../../static/css.css"/>
+		<link rel="stylesheet" href="party.css"/>
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-		<script src="code.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+		<script src="party.js"></script>
 	</head>
 	<body>
 		<?php
