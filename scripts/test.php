@@ -1,8 +1,8 @@
 <?php
-	include('User.php');
+	include('Collection.php');
 	include('Database.php');
-	$user = User::get($pdo, 'admin');
-	print_r($user);
-	$user->getBag();
-	print_r($user);
+	include('Party.php');
+	$collection = new Party($pdo, 2);
+	//$bag = new Bag($collection);
+	print_r(count($collection->values));
 ?>

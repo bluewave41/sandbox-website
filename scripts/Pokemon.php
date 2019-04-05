@@ -56,7 +56,7 @@
 		}
 		
 		/*Send out first pokemon in the party if position isn't supplied*/
-		public static function get($pdo, $id, $position=1) {
+		public static function get($pdo, $id, $position=0) {
 			$statement = $pdo->prepare("SELECT id, pokemonID, hp, level FROM pokemon WHERE id = ? AND partyPosition = ?");
 			$statement->execute([$id, $position]);
 			$pokemon = $statement->fetch();

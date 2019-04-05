@@ -40,6 +40,10 @@
 			$this->bag = Bag::get($this->pdo, $this->id);
 		}
 		
+		public function getParty() {
+			
+		}
+		
 		//username should be unique here but maybe use ID instead later?
 		public function update() {
 			$statement = $this->pdo->prepare("UPDATE users SET money = ? WHERE username = ?");

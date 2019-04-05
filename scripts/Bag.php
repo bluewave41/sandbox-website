@@ -1,13 +1,10 @@
 <?php
-	class Bag {
-		
-		private $pdo;
-		private $errors = [];
+	include('Collection.php');
+	
+	class Bag extends Collection {
 		
 		public function __construct($pdo, $id) {
-			$this->pdo = $pdo;
-			$this->id = $id;
-			$this->items = [];
+			parent::__construct($pdo, $id, 'bag');
 		}
 		
 		public function errors() {
@@ -30,20 +27,6 @@
 		
 		public function update() {
 			//$statement = $pdo->prepare("UPDATE bag SET )
-		}
-		
-		public static function get($pdo, $id) {
-			$statement = $pdo->prepare("SELECT itemID, count FROM bag WHERE id = ?");
-			$statement->execute([$id]);
-			if($statement->rowCount() === 0) {
-				return null;
-			}
-			$data = $statement->fetchAll();
-			$bag = new Bag($pdo, $id);
-			foreach($data as $item) {
-				$bag->addItem($item);
-			}
-			return $bag;
 		}
 		
 		/*Error check this*/
