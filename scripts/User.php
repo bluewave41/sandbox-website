@@ -24,10 +24,10 @@
 		public static function get($pdo, $username) {
 			$statement = $pdo->prepare("SELECT * FROM users WHERE username = ?");
 			$statement->execute([$username]);
-			$data = $statement->fetch();
 			if($statement->rowCount() === 0) {
-				return null;
+				throw new Exception("Username wasn't found."); //handle error
 			}
+			$data = $statement->fetch();
 			$user = new User($pdo, $data['username'], $data['password'], $data['email']);
 			foreach($data as $key => $value) {
 				$user->$key = $value;
@@ -40,10 +40,6 @@
 			$this->bag = Bag::get($this->pdo, $this->id);
 		}
 		
-		public function getParty() {
-			
-		}
-		
 		//username should be unique here but maybe use ID instead later?
 		public function update() {
 			$statement = $this->pdo->prepare("UPDATE users SET money = ? WHERE username = ?");
@@ -52,6 +48,7 @@
 		
 		/*Error check this*/
 		public function insert() {
+			$this->money = 5000; //TEST
 			$sql = $this->pdo->prepare("INSERT INTO users SET username=?, password=?, email=?, money=?");
 			$sql->execute([$this->username, hash('sha256', $this->password), $this->email, $this->money]);
 		}

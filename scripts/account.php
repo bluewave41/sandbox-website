@@ -9,15 +9,16 @@
 	switch ($type) {
 		case 'register':
 			$user = new User($pdo, $_POST['username'], $_POST['password'], $_POST['email']);
-			if($user->isValid()) {
+			$pokemon = new Pokemon($pdo, $_POST['starter'], -1, 5, 30);
+			if($user->isValid() && $pokemon->isValid()) {
+				$user->money = 5000;
 				$user->insert();
-				$ownerID = $pdo->lastInsertId();
-				$pokemon = new Pokemon($pdo, $ownerID, $_POST['starter'], 5, 30);
+				$pokemon->id = $pdo->lastInsertId();
 				$pokemon->insert();
 				sendMessage(["Account created successfully."]);
 			}
 			else {
-				sendMessage($user->errors());
+				sendMessage(array_merge($user->errors(), $pokemon->errors()));
 			}
 		return;
 		

@@ -24,20 +24,20 @@
 							$user = User::get($pdo, $_GET['username'])->id;
 							echo "<h1>".$_GET['username'] . "'s Party</h1>";
 						}
-						catch(Exception $e) {
+						catch(\Exception $e) {
 							echo "<h1>This username doesn't exist.</h1>";
+							return;
 						}
 					}
-					else if(isset($_SESSION['id']) && $_SESSION['id']) {
+					else if(isset($_SESSION['id']) && $_SESSION['id']) { //TODO: do we need both of these?
 						$user = $_SESSION['id'];
 						echo "<h1>Your Party</h1>";
 					}
 					else {
-						echo "No party exists.";
+						echo "No party exists."; //TODO: better message her
 						return;
 					}
-					$party = new Party($pdo, $_SESSION['id']);
-					print_r($party);
+					$party = new Party($pdo, $user); //TODO: doesn't work on GET
 					
 					echo "<table>";
 					foreach($party->values as $pokemon) {
