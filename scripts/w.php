@@ -2,8 +2,10 @@
 <body>
 <div>www</div>
 	<?php
-	
-		echo 'hello';
+		include('WildPokemon.php');
+		
+		$pokemon = new WildPokemon(null, 16, -1, 5);
+		$pokemon->tryCatch();
 	?>
 	
 </body>

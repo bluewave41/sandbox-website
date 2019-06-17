@@ -7,7 +7,6 @@
 	}
 	
 	class Pokemon {
-		
 		private $pdo;
 		private $errors = [];
 		protected $lookup = array(
@@ -38,14 +37,13 @@
 			$hp: numeric value of the pokemons hp
 			$position: position in the party (or box) of the pokemon, assumed to be first
 		*/
-		public function __construct($pdo, $pokemonID, $id, $level, $hp, $partyPosition=1) {	
+		public function __construct($pdo, $pokemonNo, $ownerID, $level, $partyPosition=1) {	
 			$this->pdo = $pdo;
-			$this->pokemonID = $pokemonID;
-			$this->id = $id;
+			$this->pokemonNo = $pokemonNo;
+			$this->ownerID = $ownerID;
 			$this->level = $level;
-			$this->hp = $hp;
 			$this->partyPosition = $partyPosition;
-			$this->name = $this->lookup[$pokemonID][0];
+			$this->name = $this->lookup[$pokemonNo][0];
 			$this->getAttacks();
 		}
 		
@@ -63,7 +61,7 @@
 			$this->calculateStats(); //only time we generate IV's stats won't be set
 		}
 		
-		public function calculateStats($stats=null) {
+		private function calculateStats($stats=null) {
 			if($stats) {
 				$this->hp = $stats['hp'];
 				$this->attackStat = $stats['attackStat'];
@@ -73,7 +71,7 @@
 				$this->speedStat = $stats['speedStat'];
 			}
 			else {
-				$tableEntry = $this->lookup[$this->pokemonID];
+				$tableEntry = $this->lookup[$this->pokemonNo];
 				$this->hp = floor(((2*$tableEntry[1]+$this->hpIV)*$this->level/100)+$this->level+10);
 				$this->attackStat = floor(((2*$tableEntry[2]+$this->hpIV)*$this->level/100)+5);
 				$this->defenseStat = floor(((2*$tableEntry[3]+$this->hpIV)*$this->level/100)+5);
@@ -92,38 +90,22 @@
 			$this->speedIV = $ivs[5];
 		}
 		
+		public function getAttack($index) {
+			return $this->attacks->getAttackIndex($index);
+		}
+		
 		public function getAttacks() {
-			if($this->id == -1) { //this pokemon is wild so we should pull from available moves
-				$this->attacks = array('Leer');
-			}
-			else {
-				$statement = $this->pdo->prepare("SELECT attack1, attack2, attack3, attack4 FROM pokemon WHERE id = ? AND partyPosition = ?");
-				$statement->execute([$this->id, $this->partyPosition]);
-				$attacks = array_values($statement->fetchAll()[0]);
-				$this->attacks = new AttackList($attacks);
-			}
-		}
-		
-		private function validateStarter() {
-			$starters = [1, 4, 7];
-			if(empty($this->pokemonID) || $this->pokemonID == -1) {
-				array_push($this->errors, "You must select a starter.");
-			}
-			else if(!in_array($this->pokemonID, $starters)) {
-				array_push($this->errors, "Invalid starter selected.");
-			}
-		}
-		
-		public function isValid() {
-			$this->validateStarter();
-			return count($this->errors) === 0;
+			$statement = $this->pdo->prepare("SELECT attack1, attack2, attack3, attack4 FROM pokemon WHERE ownerID = ? AND partyPosition = ?");
+			$statement->execute([$this->ownerID, $this->partyPosition]);
+			$attacks = array_values($statement->fetchAll()[0]);
+			$this->attacks = new AttackList($attacks);
 		}
 		
 		/*Send out first pokemon in the party if position isn't supplied*/
-		public static function get($pdo, $id, $partyPosition=1) {
+		public static function get($pdo, $ownerID, $partyPosition=1) {
 			//store active in session?
-			$statement = $pdo->prepare("SELECT * FROM pokemon WHERE id = ? AND partyPosition = ?");
-			$statement->execute([$id, $partyPosition]);
+			$statement = $pdo->prepare("SELECT * FROM pokemon WHERE ownerID = ? AND partyPosition = ?");
+			$statement->execute([$ownerID, $partyPosition]);
 			$data = $statement->fetch();
 			if($statement->rowCount() === 0) {
 				return null;
@@ -136,20 +118,27 @@
 				$data['spDefenseIV'],
 				$data['speedIV']				
 			];
-			$pokemon = new Pokemon($pdo, $data['pokemonID'], $data['id'], $data['level'], $data['hp'], $partyPosition);
+			$pokemon = new Pokemon($pdo, $data['pokemonNo'], $data['ownerID'], $data['level'], $partyPosition);
 			$pokemon->setIVs($ivs);
 			$pokemon->calculateStats($data);
 			return $pokemon;
 		}
 		
+		
 		public static function getPosition($pdo, $partyPosition) {
-			$statement = $pdo->prepare("SELECT id, level, pokemonID, hp FROM pokemon WHERE partyPosition = ?");
+			$statement = $pdo->prepare("SELECT ownerID, level, pokemonNo, hp FROM pokemon WHERE partyPosition = ?");
 			$statement->execute([$partyPosition]);
 			$pokemon = $statement->fetch();
 			if($statement->rowCount() === 0) {
 				return null;
 			}
-			return new Pokemon($pdo, $pokemon['id'], $pokemon['pokemonID'], $pokemon['level'], $pokemon['hp']);
+			return new Pokemon($pdo, $pokemon['ownerID'], $pokemon['pokemonNo'], $pokemon['level'], $pokemon['hp']);
+		}
+		
+		public function setHP($hp) {
+			$statement = $this->pdo->prepare("UPDATE pokemon SET hp = ? WHERE ownerID = ?");
+			$statement->execute([$hp, $this->ownerID]);
+			$this->hp = $hp; //is this necessary?
 		}
 		
 		/*Error check this*/

@@ -15,7 +15,7 @@
 			else {
 				var str = "";
 				str += "<div>Wild level "+ response.level + " " + response.name + " appeared!</div>";
-				str += `<img src="../../sprites/${response.pokemonID}.png"/>`;
+				str += `<img src="../../sprites/${response.pokemonNo}.png"/>`;
 				str += "<div>HP: "+response.hp+"</div>";
 				str += "<button id='redirect'>Battle!</button>";
 				message.html(str);

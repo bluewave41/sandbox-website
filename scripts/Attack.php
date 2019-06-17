@@ -1,6 +1,7 @@
 <?php
 	class Attack {
-		public function __construct($name, $power, $accuracy, $special) {
+		public function __construct($id, $name, $power, $accuracy, $special) {
+			$this->id = $id;
 			$this->name = $name;
 			$this->power = $power;
 			$this->accuracy = $accuracy;

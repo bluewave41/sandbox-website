@@ -43,11 +43,11 @@
 					foreach($party->values as $pokemon) {
 						echo "<tr id=$pokemon[A_I]>";
 						echo "<td><div>$pokemon[name]</div></td>";
-						echo "<td><img src='../../sprites/$pokemon[pokemonID].png'/></td>";
+						echo "<td><img src='../../sprites/$pokemon[pokemonNo].png'/></td>";
 						echo "<td><div>$pokemon[hp]</div></td>";
 					}
 					echo "</table>";
-					$statement = $pdo->prepare("SELECT p.A_I, p.id, pokemonID, hp, name FROM pokemon AS p LEFT JOIN pokemonlookup AS pl ON p.pokemonID = pl.id WHERE p.id = ?");
+					//$statement = $pdo->prepare("SELECT p.A_I, p.ownerID, pokemonNo, hp, name FROM pokemon AS p LEFT JOIN pokemonlookup AS pl ON p.pokemonNo = pl.id WHERE p.id = ?");
 					
 				?>
 			</div>

@@ -2,13 +2,12 @@
 	//loaded map
 	//encounter list
 	include("Database.php");
-	include("Pokemon.php");
+	include("WildPokemon.php");
 	
 	session_start();
 	$chance = random_int(0, 100);
 	
-	$pokemon = new Pokemon($pdo, 16, -1, 3, 20);
-	$pokemon->generateIVs();
+	$pokemon = new WildPokemon($pdo, 16, -1, 3);
 	
 	if($chance > 70) {
 		$_SESSION['encountered'] = $pokemon;
