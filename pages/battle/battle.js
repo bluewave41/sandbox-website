@@ -43,5 +43,16 @@
 				}
 			});
 		});
+		$('#catch').click(function() {
+			StaticBase.post('/pages/battle/catch.php', {}).then(function(response) {
+				if(response == -3) {
+					$('img').eq(1).attr('src', '../../sprites/items/pokeball.png');
+					$log.append($enemyPokemon + ' was caught!');
+				}
+				else if(response == -4) {
+					$log.append('Shoot! It was so close.</br>');
+				}
+			});
+		});
 	});
 })();

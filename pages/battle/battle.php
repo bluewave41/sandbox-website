@@ -48,6 +48,7 @@
 						echo '</tr>';
 					}
 					echo '</table>';
+					echo '<button id="catch">Poke Ball</button>';
 				?>
 				<div id="log"></div>
 			</div>

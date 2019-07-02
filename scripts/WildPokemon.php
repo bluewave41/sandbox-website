@@ -1,5 +1,6 @@
 <?php
 	include_once('Pokemon.php');
+	include_once('User.php');
 	
 	class WildPokemon extends Pokemon {
 		
@@ -73,26 +74,45 @@
 					return false;
 				}
 			}
+			$this->insert();
 			return true;
 		}
 		
 		private function shakeCheck($ballBonus=1) {
-			$this->currentHP = 7;
 			$a = (3 * $this->maxHP - 2 * $this->currentHP) * $this->catchRate * $ballBonus / (3 * $this->maxHP);
 			if($a >= 255) {
 				return true;
 			}
 			$rand = random_int(0, 65535);
-			echo $rand.'<br>';
 			$b = 1048560 / floor(floor(sqrt(floor(sqrt(floor(16711680/$a))))));
-			echo $b;
 			if($rand >= $b) {
 				return false;
 			}
 			return true;
 		}
 		
+		/*Do we need this if Pokemon has it?*/
+		public function insert() {
+			$owner = User::getFromID($this->pdo, $_SESSION['id']);
+			$pos = $owner->getNewSlot();
+			$this->ownerID = $_SESSION['id'];
+			$this->partyPosition = $pos;
+			$this->hp = $this->currentHP;
+			$remove = ['attacks', 'name', 'pdo', 'errors', 'lookup', 'currentHP', 'maxHP', 'catchRate', 'id'];
+			$pokemon = get_object_vars($this);
+			foreach($remove as $value) {
+				unset($pokemon[$value]);
+			}
+			$sql = $this->pdo->prepare("INSERT INTO pokemon(".join(array_keys($pokemon), ',').") VALUES ('".join($pokemon, "','")."')"); //is this safe??
+			$sql->execute();
+		}
+		
 		public function __sleep() {
 			return array_keys(getVars($this));
+		}
+		
+		public function __wakeup() {
+			include('Database.php');
+			$this->pdo = $pdo;
 		}
 	}

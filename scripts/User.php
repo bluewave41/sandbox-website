@@ -35,6 +35,20 @@
 			return $user;
 		}
 		
+		public static function getFromID($pdo, $id) {
+			$statement = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+			$statement->execute([$id]);
+			if($statement->rowCount() === 0) {
+				throw new Exception("Username wasn't found."); //handle error
+			}
+			$data = $statement->fetch();
+			$user = new User($pdo, $data['username'], $data['password'], $data['email']);
+			foreach($data as $key => $value) {
+				$user->$key = $value;
+			}
+			return $user;
+		}
+		
 		/*Can only be called on a user fetched with get*/
 		public function getBag() {
 			$this->bag = Bag::get($this->pdo, $this->id);
@@ -69,6 +83,12 @@
 			$this->validatePassword();
 			$this->validateEmail();
 			return count($this->errors) === 0;
+		}
+		
+		public function getNewSlot() {
+			$statement = $this->pdo->prepare("SELECT max(partyPosition)+1 AS position FROM pokemon WHERE ownerID = ?");
+			$statement->execute([$_SESSION['id']]);
+			return $statement->fetch()['position'];
 		}
 		
 		private function validateName() {
