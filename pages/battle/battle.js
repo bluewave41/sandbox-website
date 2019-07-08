@@ -15,7 +15,10 @@
 					$log.append($playerPokemon + ' finished off wild ' + $enemyPokemon + ' with ' + name + '!</br>');
 					$log.append($playerPokemon + ' earned ' + response[1] + ' exp points!</br>');
 					$('#encounterHP').text(0);
-					$log.append('Defeated wild ' + $enemyPokemon + '!');
+					$log.append('Defeated wild ' + $enemyPokemon + '!</br>');
+					if(response.length == 3) { //level up
+						$log.append($playerPokemon + ' grew to level ' + response[2] + '!');
+					}
 				}
 				else if(response[0] == -2) {
 					$log.append($enemyPokemon + ' used ' + attacks[response[1]-1] + ' and did ' + response[2] + ' damage!' + '</br>');
@@ -31,7 +34,7 @@
 					let enemyDamage = response[3];
 					$('#playerHP').text(playerHP - enemyDamage); //dont do this here?
 					$('#encounterHP').text(encounterHP - playerDamage);
-					if(isPlayerFirst) { //
+					if(isPlayerFirst) {
 						$('#encounterHP').text(encounterHP - playerDamage);
 						$log.append($playerPokemon + ' used ' + name + ' and did ' + playerDamage + ' damage!' + '</br>');
 						$log.append($enemyPokemon + ' used ' + attacks[enemyAttackID] + ' and did ' + enemyDamage + ' damage!' + '</br>');

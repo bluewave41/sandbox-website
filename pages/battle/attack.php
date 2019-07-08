@@ -33,7 +33,12 @@
 		$encounter->currentHP -= $playerDamage;
 		if($encounter->currentHP <= 0) {
 			$exp = $pokemon->calculateExp($encounter->pokemonNo, $encounter->level);
-			echo json_encode([BattleState::WON, $exp]);
+			if($pokemon->shouldLevel($pokemon->exp)) {
+				echo json_encode([BattleState::WON, $exp, $pokemon->level+1]);
+			}
+			else {
+				echo json_encode([BattleState::WON, $exp]);
+			}
 			unset($_SESSION['encountered']);
 		}
 		else {
@@ -57,7 +62,12 @@
 			$encounter->currentHP -= $playerDamage;
 			if($encounter->currentHP <= 0) {
 				$exp = $pokemon->calculateExp($encounter->pokemonNo, $encounter->level);
-				echo json_encode([BattleState::WON, $exp]);
+				if($pokemon->shouldLevel($pokemon->exp)) {
+					echo json_encode([BattleState::WON, $exp, $pokemon->level+1]);
+				}
+				else {
+					echo json_encode([BattleState::WON, $exp]);
+				}
 				unset($_SESSION['encountered']);
 			}
 			else {

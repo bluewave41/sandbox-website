@@ -132,9 +132,9 @@
 		}
 		
 		
-		public static function getPosition($pdo, $partyPosition) {
-			$statement = $pdo->prepare("SELECT * FROM pokemon WHERE partyPosition = ?");
-			$statement->execute([$partyPosition]);
+		public static function getPosition($pdo, $ownerID, $partyPosition) {
+			$statement = $pdo->prepare("SELECT * FROM pokemon WHERE partyPosition = ? AND ownerID = ?");
+			$statement->execute([$partyPosition, $ownerID]);
 			$data = $statement->fetch();
 			if($statement->rowCount() === 0) {
 				return null;
@@ -144,10 +144,17 @@
 			return $pokemon;
 		}
 		
+		/*Needs party position*/
 		public function setHP($hp) {
 			$statement = $this->pdo->prepare("UPDATE pokemon SET hp = ? WHERE ownerID = ?");
 			$statement->execute([$hp, $this->ownerID]);
 			$this->hp = $hp; //is this necessary?
+		}
+		
+		/*Partypositions will be an array in the future, singular for now*/
+		public function levelUp() {
+			$statement = $this->pdo->prepare("UPDATE pokemon SET level = level+1 WHERE ownerID = ? AND partyPosition = ?");
+			$statement->execute([$this->ownerID, $this->partyPosition]);
 		}
 		
 		/*Doesn't work if multiple pokemon participate*/
@@ -166,11 +173,17 @@
 			
 			$statement = $this->pdo->prepare("UPDATE pokemon SET exp = exp+? WHERE ownerID = ? AND partyPosition = 1");
 			$statement->execute([$exp, $this->ownerID]);
+			$this->exp += $exp;
 			return $exp;
 		}
 		
-		private function shouldLevel() {
-			$requiredExp = pow($this->level, 3);
+		public function shouldLevel($exp) {
+			$requiredExp = pow($this->level+1, 3);
+			if($exp >= $requiredExp) {
+				$this->levelup();
+				return true;
+			}
+			return false;
 		}
 		
 		/*Error check this*/

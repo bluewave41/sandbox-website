@@ -38,6 +38,7 @@
 			$this->level = $level;
 			$this->partyPosition = $partyPosition;
 			$this->name = $this->lookup[$pokemonNo][0];
+			$this->exp = 125;
 		}
 		
 		/*Error check this*/
