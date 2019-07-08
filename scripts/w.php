@@ -1,11 +1,11 @@
 <html>
 <body>
-<div>www</div>
+<div></div>
 	<?php
-		include('WildPokemon.php');
-		
-		$pokemon = new WildPokemon(null, 16, -1, 5);
-		$pokemon->tryCatch();
+		include('Pokemon.php');
+		include('Database.php');
+		$pokemon = Pokemon::get($pdo, 59, 1);
+		print_r($pokemon);
 	?>
 	
 </body>

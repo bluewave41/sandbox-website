@@ -8,9 +8,6 @@
 
 	function generateKey() {
 		let $keys = $('#keys');
-		StaticBase.post() {
-			
-		}
 		$.ajax({
 			type: "POST",
 			url: 'api/api.php',

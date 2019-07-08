@@ -1,9 +1,9 @@
 <html>
 	<head>
-		<link rel="stylesheet" href="css.css"/>
+		<link rel="stylesheet" href="../../static/css.css"/>
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 		<script src="adminCode.js"></script>
-		<script src="code.js"></script>
+		<script src="userList.js"></script>
 		<script>
 			$(document).ready(function() {
 				createTable();
@@ -12,9 +12,9 @@
 	</head>
 	<body>
 		<?php
-			include('links.php');
-			if(!isset($_SESSION['username'])) {
-				header('location:../testsite');
+			include('../../static/links.php');
+			if(!isset($_SESSION['username']) || !$_SESSION['admin']) {
+				header('location:../testsite'); //doesn't work
 				exit();
 			}
 		?>

@@ -15,8 +15,7 @@
 			include('../../static/links.php');
 			
 			if(!isset($_SESSION['encountered'])) {
-				echo "<div>You don't have an active encounter.</div>";
-				return; //makes page gross
+				header('Location: ../index/index.php');
 			}
 		?>
 		<div class="wrapper">

@@ -34,15 +34,15 @@
 						echo "<h1>Your Party</h1>";
 					}
 					else {
-						echo "No party exists."; //TODO: better message her
+						echo "No party exists."; //TODO: better message here
 						return;
 					}
 					$party = new Party($pdo, $user); //TODO: doesn't work on GET
 					
 					echo "<table>";
 					foreach($party->values as $pokemon) {
-						echo "<tr id=$pokemon[A_I]>";
-						echo "<td><div>$pokemon[name]</div></td>";
+						echo "<tr id=$pokemon[partyPosition]>"; //not sure if I want this
+						echo "<td><div class='name'>$pokemon[name]</div></td>";
 						echo "<td><img src='../../sprites/$pokemon[pokemonNo].png'/></td>";
 						echo "<td><div>$pokemon[hp]</div></td>";
 					}

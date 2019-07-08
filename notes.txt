@@ -8,4 +8,3 @@ scoping in getitemcosts
 is this safe? comments
 can drag around other peoples party in party with get parameter
 battle page doesnt load if no encounter
-caught pokemon hp is wrong

@@ -11,6 +11,7 @@
 			echo '<a href="../shop/shop.php">Shop</a> ';
 			if($_SESSION['admin']) {
 				echo '<a href="../userlist/userList.php">User List</a> ';
+				//echo '<a href="../userlist/userList.php">User List</a> ';
 			}
 		}
 		else {

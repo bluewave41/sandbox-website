@@ -9,24 +9,25 @@
 	class Pokemon {
 		private $pdo;
 		private $errors = [];
+		//hp, attack, defense, spatk, spdef, speed, exp
 		protected $lookup = array(
 			[null],
-			['Bulbasaur', 45, 49, 49, 65, 65, 45],
+			['Bulbasaur', 45, 49, 49, 65, 65, 45, 64],
 			[null],
 			[null],
-			['Charmander', 39, 52, 43, 60, 50, 65],
+			['Charmander', 39, 52, 43, 60, 50, 65, 63],
 			[null],
 			[null],
-			['Squirtle', 44, 48, 65, 50, 64, 43],
-			[null],
-			[null],
-			[null],
+			['Squirtle', 44, 48, 65, 50, 64, 43, 62],
 			[null],
 			[null],
 			[null],
 			[null],
 			[null],
-			['Pidgey', 40, 45, 40, 35, 35, 56]
+			[null],
+			[null],
+			[null],
+			['Pidgey', 40, 45, 40, 35, 35, 56, 50]
 		);
 		
 		/*
@@ -101,6 +102,11 @@
 			$this->attacks = new AttackList($attacks);
 		}
 		
+		public function getAttackNames() {
+			$attacks = $this->attacks->attacks;
+			return json_encode($attacks);
+		}
+		
 		/*Send out first pokemon in the party if position isn't supplied*/
 		public static function get($pdo, $ownerID, $partyPosition=1) {
 			//store active in session?
@@ -121,24 +127,50 @@
 			$pokemon = new Pokemon($pdo, $data['pokemonNo'], $data['ownerID'], $data['level'], $partyPosition);
 			$pokemon->setIVs($ivs);
 			$pokemon->calculateStats($data);
+			$pokemon->exp = $data['exp'];
 			return $pokemon;
 		}
 		
 		
 		public static function getPosition($pdo, $partyPosition) {
-			$statement = $pdo->prepare("SELECT ownerID, level, pokemonNo, hp FROM pokemon WHERE partyPosition = ?");
+			$statement = $pdo->prepare("SELECT * FROM pokemon WHERE partyPosition = ?");
 			$statement->execute([$partyPosition]);
-			$pokemon = $statement->fetch();
+			$data = $statement->fetch();
 			if($statement->rowCount() === 0) {
 				return null;
 			}
-			return new Pokemon($pdo, $pokemon['ownerID'], $pokemon['pokemonNo'], $pokemon['level'], $pokemon['hp']);
+			$pokemon = new Pokemon($pdo, $data['pokemonNo'], $data['ownerID'], $data['level'], $partyPosition);
+			$pokemon->exp = $data['exp'];
+			return $pokemon;
 		}
 		
 		public function setHP($hp) {
 			$statement = $this->pdo->prepare("UPDATE pokemon SET hp = ? WHERE ownerID = ?");
 			$statement->execute([$hp, $this->ownerID]);
 			$this->hp = $hp; //is this necessary?
+		}
+		
+		/*Doesn't work if multiple pokemon participate*/
+		public function calculateExp($wildPokemonNo, $wildPokemonLevel) {
+			$a = 1; //this is wrong
+			$b = $this->lookup[$wildPokemonNo][7];
+			$e = 1;
+			$f = 1; //not going to bother with affection
+			$L = $wildPokemonLevel;
+			$p = 1;
+			$s = 1; //this is wrong
+			$t = 1;
+			$v = 1;
+			
+			$exp = floor(($a*$t*$b*$e*$L*$p*$f*$v) / (7*$s));
+			
+			$statement = $this->pdo->prepare("UPDATE pokemon SET exp = exp+? WHERE ownerID = ? AND partyPosition = 1");
+			$statement->execute([$exp, $this->ownerID]);
+			return $exp;
+		}
+		
+		private function shouldLevel() {
+			$requiredExp = pow($this->level, 3);
 		}
 		
 		/*Error check this*/

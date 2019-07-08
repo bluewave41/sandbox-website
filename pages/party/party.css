@@ -11,3 +11,8 @@
 .ui-state-active {
 	background:lightgray   
 }
+
+.name {
+	text-decoration: underline;
+	cursor: pointer;
+}

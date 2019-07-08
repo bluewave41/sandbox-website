@@ -32,7 +32,8 @@
 	if($same == 1 || $pokemon->speedStat > $encounter->speedStat) { //player is faster
 		$encounter->currentHP -= $playerDamage;
 		if($encounter->currentHP <= 0) {
-			echo json_encode([BattleState::WON]); //player won
+			$exp = $pokemon->calculateExp($encounter->pokemonNo, $encounter->level);
+			echo json_encode([BattleState::WON, $exp]);
 			unset($_SESSION['encountered']);
 		}
 		else {
@@ -55,7 +56,8 @@
 		else {
 			$encounter->currentHP -= $playerDamage;
 			if($encounter->currentHP <= 0) {
-				echo json_encode([BattleState::WON]);
+				$exp = $pokemon->calculateExp($encounter->pokemonNo, $encounter->level);
+				echo json_encode([BattleState::WON, $exp]);
 				unset($_SESSION['encountered']);
 			}
 			else {

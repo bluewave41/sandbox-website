@@ -13,6 +13,7 @@
 			StaticBase.post('/pages/battle/attack.php', {attack: $(this).attr('id')}).then(function(response) {
 				if(response[0] == -1) { //won battle, do something better here
 					$log.append($playerPokemon + ' finished off wild ' + $enemyPokemon + ' with ' + name + '!</br>');
+					$log.append($playerPokemon + ' earned ' + response[1] + ' exp points!</br>');
 					$('#encounterHP').text(0);
 					$log.append('Defeated wild ' + $enemyPokemon + '!');
 				}
