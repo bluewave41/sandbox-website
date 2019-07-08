@@ -46,11 +46,26 @@
 			$remove = ['attacks', 'name', 'pdo', 'errors', 'lookup'];
 			$this->generateIVs(); //can't do this here when catching wild pokemon
 			$pokemon = get_object_vars($this);
+			$this->setAttacks($pokemon);
 			foreach($remove as $value) {
 				unset($pokemon[$value]);
 			}
 			$sql = $this->pdo->prepare("INSERT INTO pokemon(".join(array_keys($pokemon), ',').") VALUES ('".join($pokemon, "','")."')"); //is this safe??
 			$sql->execute();
+		}
+		
+		private function setAttacks(&$pokemon) {
+			switch($this->pokemonNo) {
+				case 1:
+					$pokemon['attack1'] = 1;
+				break;
+				case 4:
+					$pokemon['attack1'] = 2;
+				break;
+				case 7:
+					$pokemon['attack1'] = 1;
+				break;
+			}
 		}
 		
 		private function validateStarter() {

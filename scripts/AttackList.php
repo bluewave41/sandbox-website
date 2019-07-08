@@ -4,8 +4,8 @@
 	class AttackList {
 		//id, name, power, accuracy, physical = false special = true
 		protected $attackLookup = array(
-			[1, 'Tackle', 60, 100, false],
-			[2, 'stuff', 70, 100, false]
+			[1, 'Tackle', 35, 95, false],
+			[2, 'Scratch', 40, 100, false]
 		);
 		
 		public function __construct($attacks) {

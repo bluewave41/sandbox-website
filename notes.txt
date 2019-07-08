@@ -1,10 +1,6 @@
-Ensure name email and such are actually set
-validate starter
 remove ownerid from battle
-redo registration pokemon
 fix great ball sprite
 scoping in getitemcosts
 is this safe? comments
 can drag around other peoples party in party with get parameter
 battle page doesnt load if no encounter
-pokemon doesn't start with moves
