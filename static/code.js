@@ -20,7 +20,7 @@ var StaticBase = (function() {
 		return new Promise(function(resolve, reject) {
 			$.ajax({
 				type: "POST",
-				url: 'http://localhost/testsite/' + url,
+				url: '/testsite/' + url,
 				dataType: 'JSON',
 				data: data,
 				success: function(data) {
