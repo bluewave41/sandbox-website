@@ -28,7 +28,7 @@
 						$resourceName = str_replace(' ', '', $item['name']).'.png';
 						$name = $item['name'];
 						$cost = $item['cost'];
-						echo "<tr><td><img src='../../sprites/items/$resourceName'/></td><td><span>$name</span></td><td><span>$cost</span></td>
+						echo "<tr><td><img src='../../sprites/items/$resourceName'/></td><td><span class='name'>$name</span></td><td><span>$cost</span></td>
 							  <td><input id=$resourceName value=0 type='number'/><td></tr>";
 					}
 					echo '</table>';

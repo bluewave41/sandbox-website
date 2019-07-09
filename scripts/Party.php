@@ -14,7 +14,7 @@
 			ONLY RUN ON SESSION DATA. NEVER SEND ID BY PARAMETER
 		*/
 		public function get($pdo, $id, $tableName) {
-			$statement = $pdo->prepare("SELECT * FROM pokemon AS p LEFT JOIN pokemonLookup AS pl ON p.pokemonNo = pl.pokemonNo WHERE p.ownerID = ? AND partyPosition < 7 ORDER BY partyPosition ASC");
+			$statement = $pdo->prepare("SELECT * FROM pokemon AS p LEFT JOIN pokemonlookup AS pl ON p.pokemonNo = pl.pokemonNo WHERE p.ownerID = ? AND partyPosition < 7 ORDER BY partyPosition ASC");
 			$statement->execute([$id]);
 			if($statement->rowCount() === 0) {
 				return null;

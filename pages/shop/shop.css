@@ -5,3 +5,7 @@ td {
 input {
 	width: 50px;
 }
+
+.name {
+	text-transform: capitalize;
+}
