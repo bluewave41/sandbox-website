@@ -20,5 +20,5 @@
 			echo '<a href="../login/login.php">Login</a> ';
 		}
 	?>
-	<a href="chat.html">Chat</a>
+	<!--<a href="chat.html">Chat</a>-->
 </div>

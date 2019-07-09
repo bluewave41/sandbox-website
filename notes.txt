@@ -2,8 +2,6 @@ remove ownerid from battle
 fix great ball sprite
 scoping in getitemcosts
 is this safe? comments
-can drag around other peoples party in party with get parameter
+cant look at info for other peoples parties
 battle page doesnt load if no encounter
 remove chat from live site
-
-pokemonlookup has to be lowercase

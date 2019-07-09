@@ -19,9 +19,9 @@
 			//return this; 
 		};
 
-		$("img").draggable({helper: "clone" });
+		$("#draggable img").draggable({helper: "clone" });
 
-		$("img").droppable({
+		$("#draggable img").droppable({
 			accept: "img",
 			activeClass: "ui-state-hover",
 			hoverClass: "ui-state-active",

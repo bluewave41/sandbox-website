@@ -19,9 +19,11 @@
 					include("../../scripts/User.php");
 					include("../../scripts/Party.php");
 					$user;
+					$draggable = true;
 					if(isset($_GET['username'])) { //TODO: validate this
 						try {
 							$user = User::get($pdo, $_GET['username'])->id;
+							$draggable = false;
 							echo "<h1>".$_GET['username'] . "'s Party</h1>";
 						}
 						catch(\Exception $e) {
@@ -37,11 +39,11 @@
 						echo "No party exists."; //TODO: better message here
 						return;
 					}
-					$party = new Party($pdo, $user); //TODO: doesn't work on GET
+					$party = new Party($pdo, $user); //TODO: doesn't work on GET -> pretty sure it does now? not sure what this meant
 					
-					echo "<table>";
+					echo $draggable ? "<table id='draggable'>" : "<table>";
 					foreach($party->values as $pokemon) {
-						echo "<tr id=$pokemon[partyPosition]>"; //not sure if I want this
+						echo "<tr id=$pokemon[partyPosition]>";
 						echo "<td><div class='name'>$pokemon[name]</div></td>";
 						echo "<td><img src='../../sprites/$pokemon[pokemonNo].png'/></td>";
 						echo "<td><div>$pokemon[hp]</div></td>";
