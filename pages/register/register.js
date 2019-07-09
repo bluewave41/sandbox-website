@@ -7,7 +7,7 @@
 		
 		$("#register").click(function(e) {
 			let errors = validate();
-			if(errors) {
+			if(errors.length > 0) {
 				e.preventDefault();
 				alert(errors.join('\n'));	
 				return;
