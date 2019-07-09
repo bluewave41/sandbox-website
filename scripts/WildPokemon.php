@@ -103,6 +103,7 @@
 			foreach($remove as $value) {
 				unset($pokemon[$value]);
 			}
+			$pokemon['exp'] = pow($pokemon['level', 3);
 			$sql = $this->pdo->prepare("INSERT INTO pokemon(".join(array_keys($pokemon), ',').") VALUES ('".join($pokemon, "','")."')"); //is this safe??
 			$sql->execute();
 		}

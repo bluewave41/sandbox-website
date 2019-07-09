@@ -4,3 +4,7 @@ scoping in getitemcosts
 is this safe? comments
 can drag around other peoples party in party with get parameter
 battle page doesnt load if no encounter
+
+poekmonlookup has to be lowercase
+set default values for attacks and admin in user table
+catch doesnt work on live
